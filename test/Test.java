@@ -1,21 +1,24 @@
-
-import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.shape.Circle;
-import javafx.scene.paint.Paint;
-// import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.scene.layout.Pane;
 import javafx.geometry.VPos;
 
 
-public class App extends Application{
+public class Test extends Application{
 
-    public void start(Stage primartStage){
-        primartStage.setTitle("Anynymous");
+    private long lastUpdate = 0;
+    private final double targetDelta = 1. / 60.;
+
+
+    public void start(Stage stage){
+        stage.setTitle("Anynymous");
+        // Text text = new Text(250, 250, "This is a test hahaha");
         Text text = new Text();
-        text.setText("This is an app");
+        text.setText("This is a test");
 
         text.setTextAlignment(TextAlignment.CENTER);
         text.setTextOrigin(VPos.CENTER);
@@ -30,12 +33,20 @@ public class App extends Application{
         circle.setCenterY(250);
         circle.setRadius(1);
         // circle.fillProperty()
+        circle.setFill(Color.RED);
         root.getChildren().add(circle);
 
 
+
+
+
         Scene scene = new Scene(root, 500, 500);
-        primartStage.setScene(scene);
-        primartStage.show();
+        stage.setScene(scene);
+        stage.show();
+
+        
+
+
     }
 
     public static void main(String[] args){
