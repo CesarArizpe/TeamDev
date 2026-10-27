@@ -8,8 +8,10 @@ public class Logo {
     private Vec2 velocity;
     private double width;
     private double height;
-    private Rectangle hitbox;
+    public Rectangle hitbox;
     private Color color;
+    private double offsetX;
+    private double offsetY;
 
     public Logo(){
         this.position = null;
@@ -18,6 +20,7 @@ public class Logo {
         this.height = 0;
         this.hitbox = new Rectangle();
         this.color = Color.BLACK;
+        setupDragHandlers();
     }
     public Logo(Vec2 pos, Vec2 vel, double width, double height, Color color){
         this.position = pos;
@@ -27,6 +30,7 @@ public class Logo {
         this.hitbox = new Rectangle(pos.getXComp(), pos.getYComp(), width, height);
         this.hitbox.setFill(color);
         this.color = color;
+        setupDragHandlers();
     }
 
     public void setXPos(double xpos){ this.position.setXComp(xpos); }
@@ -47,6 +51,20 @@ public class Logo {
     public double getHeight(){ return this.height; }
     public Rectangle getHitbox(){ return this.hitbox; }
     public Color getColor(){ return this.color; }
+
+    private void setupDragHandlers(){
+        this.hitbox.setOnMousePressed(event -> {
+            offsetX = event.getSceneX() - this.hitbox.getX();
+            offsetY = event.getSceneY() - this.hitbox.getY();
+        });
+
+        this.hitbox.setOnMouseDragged(this::onMouseDragged);
+    }
+
+    private void onMouseDragged(javafx.scene.input.MouseEvent event) {
+        this.hitbox.setX(event.getSceneX() - offsetX);
+        this.hitbox.setY(event.getSceneY() - offsetY);
+    }
 
     
         
