@@ -24,7 +24,9 @@ public class Logo {
         this.velocity = vel;
         this.width = width;
         this.height = height;
-        this.hitbox = new Rectangle(width, height);
+        this.hitbox = new Rectangle(pos.getXComp(), pos.getYComp(), width, height);
+        this.hitbox.setFill(color);
+        this.color = color;
     }
 
     public void setXPos(double xpos){ this.position.setXComp(xpos); }
@@ -34,6 +36,8 @@ public class Logo {
     public void setWidth(double width){ this.width = width; }
     public void setHeight(double height){ this.height = height; } 
     public void setColor(Color color){ this.color = color; }
+    public void setHitboxXPos(double xpos) { this.hitbox.setX(xpos);}
+    public void setHitboxYPos(double ypos) { this.hitbox.setY(ypos);}
 
     public double getXPos(){ return this.position.getXComp(); }
     public double getYPos(){ return this.position.getYComp(); }
