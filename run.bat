@@ -1,11 +1,18 @@
-@echo off cd /d "%~dp0" if not exist out mkdir out
+@echo off
+cd /d "%~dp0"
 
-javac --module-path "C:\Users\Cesar\javafx-sdk-27\lib" --add-modules javafx.controls,javafx.media -d out src\App.java src\ChessTester.java src\includes\chessBoard\ChessBoard.java src\includes\chessBoard\GridSpace.java src\includes\chessPieces\Piece.java
+if not exist out mkdir out
 
-if errorlevel 1 goto error
+dir /s /b src\*.java > sources.txt
+
+javac --module-path "C:\Users\Cesar\javafx-sdk-27\lib" --add-modules javafx.controls,javafx.media -d out @sources.txt
+
+if errorlevel 1 (
+    echo Compilation failed.
+    pause
+    exit /b 1
+)
 
 java --module-path "C:\Users\Cesar\javafx-sdk-27\lib" --add-modules javafx.controls,javafx.media --enable-native-access=javafx.graphics -Djava.library.path="C:\Users\Cesar\javafx-sdk-27\bin" -cp out App
 
-pause exit /b
-
-:error echo Compilation failed. pause
+pause

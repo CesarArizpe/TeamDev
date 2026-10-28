@@ -17,6 +17,8 @@ public class TestBoxPhysics extends Application{
     private double screenWidth = 500;
     private double screenHeight = 500;
 
+    private boolean drawing = true;
+
     public void start(Stage stage){
         Text text = new Text();
         text.setText("This is a test");
