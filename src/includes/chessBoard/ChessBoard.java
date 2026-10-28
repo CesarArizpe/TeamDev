@@ -1,5 +1,4 @@
 package includes.chessBoard;
-// import javafx.scene.shape.Rectangle;
 
 import includes.chessPieces.Piece;
 import includes.chessPieces.WhitePawn;
@@ -8,13 +7,14 @@ import javafx.scene.paint.Color;
 public class ChessBoard {
     private GridSpace [][] board;
     private Piece activePiece;
+    private boolean turnWhite;
 
-    public ChessBoard(){
+    public ChessBoard(int originalXPos, int ypos){
         this.board = new GridSpace[8][8];
+        this.turnWhite = true;
 
         boolean whiteSpace = true;
-        int xpos = 20;
-        int ypos = 169;
+        int xpos = originalXPos;
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 this.board[i][j] = new GridSpace(xpos, ypos, 
@@ -25,15 +25,17 @@ public class ChessBoard {
             }
             whiteSpace = !whiteSpace;
             ypos += 64;
-            xpos = 20;
+            xpos = originalXPos;
         }
         this.activePiece = null;
     }
 
     public GridSpace[][] getBoard() { return this.board; }
     public Piece getActivePiece() { return this.activePiece; }
+    public boolean isTurnWhite() { return this.turnWhite; }
 
     public void setActivePiece(Piece piece) { this.activePiece = piece;}
+    public void toggleTurnWhite() { this.turnWhite = !this.turnWhite; }
 
     public void addPiece(int gridX, int gridY, Piece piece){
         piece.setXPos(this.board[gridX][gridY].getPieceXPos());
@@ -44,6 +46,7 @@ public class ChessBoard {
     }
 
     public void movePiece(GridSpace oldSpace, GridSpace newSpace, Piece piece){
+        System.out.println("NEWGRID X: " + newSpace.getGridX() + " Y: " + newSpace.getGridY());
         oldSpace.setCurrentPiece(null);
         piece.setXPos(newSpace.getPieceXPos());
         piece.setYPos(newSpace.getPieceYPos());
@@ -51,7 +54,7 @@ public class ChessBoard {
         piece.setGridY(newSpace.getGridY());
         if(piece instanceof WhitePawn pawn && pawn.isFirstMove()){ pawn.toggleFirstMove(); }
 
-        this.board[newSpace.getGridX()][newSpace.getGridY()].setCurrentPiece(piece);
+        this.board[newSpace.getGridY()][newSpace.getGridX()].setCurrentPiece(piece);
         this.activePiece = null;
     }
     

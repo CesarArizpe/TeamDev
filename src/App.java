@@ -1,12 +1,10 @@
 
 import javafx.stage.Stage;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.text.*;
 import javafx.scene.layout.Pane;
-import javafx.geometry.VPos;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -20,27 +18,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 
 
 public class App extends Application{
-    private double screenWidth = 900;
-    private double screenHeight = 850;
+    private int screenWidth = 600;
+    private int screenHeight = 600;
 
     public void start(Stage stage) throws FileNotFoundException{
-        stage.setTitle("Anynymous");
+        stage.setTitle("Chess.java");
+        stage.getIcons().add(new Image(new FileInputStream("C:\\Users\\Cesar\\Programming\\Java\\Chess\\ChessApp\\src\\includes\\sprites\\W_King.png")));
 
         Pane root = new Pane();
         root.setPrefWidth(screenWidth);
         root.setPrefHeight(screenHeight);
 
-        ChessBoard chessBoard = new ChessBoard();
+        ChessBoard chessBoard = new ChessBoard(screenHeight / 2 - 256, screenHeight / 2 - 256);
 
         drawGrid(chessBoard, root);
 
-        // drawDots(root); 
-        // GridSpace space = chessBoard.getBoard()[6][0];
         Piece whitePawn = new WhitePawn();
         Piece blackPawn = new BlackPawn();
 
