@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.control.Button;
 
 public class ChessTester extends Application{
     private int screenWidth = 900;
@@ -25,7 +26,7 @@ public class ChessTester extends Application{
 
     public void start(Stage stage) throws FileNotFoundException{
         stage.setTitle("ChessTester.java");
-        stage.getIcons().add(new Image(new FileInputStream("C:\\Users\\Cesar\\Programming\\Java\\Chess\\ChessApp\\src\\includes\\sprites\\W_King.png")));
+        stage.getIcons().add(new Image(new FileInputStream(System.getProperty("user.dir") + "\\src\\includes\\sprites\\W_King.png")));
         stage.setResizable(false);
         System.out.println("This is CHESS TESTER");
 
@@ -42,16 +43,28 @@ public class ChessTester extends Application{
         Piece whitePawn = new WhitePawn();
         Piece blackPawn = new BlackPawn();
 
-        addPiece(chessBoard, whitePawn, 6, 0, root);
-        addPiece(chessBoard, blackPawn, 2, 0, root);
+        addPiece(chessBoard, whitePawn, 0, 6, root);
+        addPiece(chessBoard, blackPawn, 0, 1, root);
 
-        System.out.println("TURN WHITE: " + chessBoard.isTurnWhite());
+        Button toggleTurnButton = new Button("Toggle Turn-Based Play");
+        // toggleTurnButton.setPrefHeight(30);
+        // toggleTurnButton.setPrefWidth(70);
+        toggleTurnButton.setLayoutX(20 + 512);
+        toggleTurnButton.setLayoutY(screenHeight - 512 - 256);
+        
+        toggleTurnButton.setOnAction(event -> {
+            chessBoard.toggleTurnBased();
+            System.out.println("TURN BASED : " + chessBoard.isTurnBased());
+        });
 
+
+        root.getChildren().add(toggleTurnButton);
 
 
         spacesWithPieces(chessBoard);
 
         Scene scene = new Scene(root, screenWidth, screenHeight, Color.GREY);
+        root.setStyle("-fx-background-color: grey;");
         stage.setScene(scene);
         stage.show();
     }
@@ -84,22 +97,19 @@ public class ChessTester extends Application{
                 gridSpace.getHoverRect().setMouseTransparent(true);
 
                 gridSpace.getHoverRect().setOnMouseClicked(event -> {
-                    System.out.println("you clicked me! ");
 
-                    if(chessBoard.isTurnWhite() && chessBoard.getActivePiece() instanceof BlackPawn == false){
-                        System.out.println("running white turn");
+                    if(chessBoard.isTurnBased()){
+                        if(isCorrectColorTurn(chessBoard.getActivePiece(), chessBoard.isTurnWhite())){
+                            chessBoard.movePiece(chessBoard.getActivePiece().getGridSpace(), gridSpace, chessBoard.getActivePiece());
+                            toggleActiveSpaces(chessBoard);
+                            spacesWithPieces(chessBoard);
+                            chessBoard.toggleTurnWhite();
+                        }
+                    }else{
                         chessBoard.movePiece(chessBoard.getActivePiece().getGridSpace(), gridSpace, chessBoard.getActivePiece());
                         toggleActiveSpaces(chessBoard);
                         spacesWithPieces(chessBoard);
                         chessBoard.toggleTurnWhite();
-                        System.out.println("TURN WHITE: " + chessBoard.isTurnWhite());
-                    }else if(!chessBoard.isTurnWhite() && chessBoard.getActivePiece() instanceof WhitePawn == false){
-                        System.out.println("running black turn");
-                        chessBoard.movePiece(chessBoard.getActivePiece().getGridSpace(), gridSpace, chessBoard.getActivePiece());
-                        toggleActiveSpaces(chessBoard);
-                        spacesWithPieces(chessBoard);
-                        chessBoard.toggleTurnWhite();
-                        System.out.println("TURN WHITE: " + chessBoard.isTurnWhite());
                     }
                 });
             }
@@ -111,15 +121,12 @@ public class ChessTester extends Application{
         int gridX, int gridY, Pane root) {
 
         chessBoard.addPiece(gridX, gridY, piece);
-        System.out.println(piece.getGridX());
-        System.out.println(piece.getGridY());
 
         Rectangle hitbox = piece.getHitbox();
         root.getChildren().add(hitbox);
 
         ImageView image = piece.getImageView();
         root.getChildren().add(image);
-        System.out.println(image);
 
         hitbox.setOnMouseClicked(event -> {
             handlePieceClick(chessBoard, event, piece);
@@ -132,34 +139,29 @@ public class ChessTester extends Application{
     }
 
     public static void handlePieceClick(ChessBoard chessBoard, MouseEvent event, Piece piece){
-        if(chessBoard.getActivePiece() == piece){
-            toggleActiveSpaces(chessBoard);
-            chessBoard.setActivePiece(null);
-        }else if(chessBoard.getActivePiece() == null && (chessBoard.isTurnWhite() && isWhitePiece(piece) || chessBoard.isTurnWhite() == false && isWhitePiece(piece) == false)){
-            chessBoard.setActivePiece(piece);
-            toggleActiveSpaces(chessBoard);
-            toggleAvailableSpaces(chessBoard, piece.getAvailableMoves(chessBoard));
-        }else if(chessBoard.getActivePiece() != piece && (chessBoard.isTurnWhite() && isWhitePiece(piece) || !chessBoard.isTurnWhite() && !isWhitePiece(piece))){
-            chessBoard.setActivePiece(piece);
-            toggleActiveSpaces(chessBoard);
-            toggleAvailableSpaces(chessBoard, piece.getAvailableMoves(chessBoard));
+        if(chessBoard.isTurnBased()){
+            if(chessBoard.getActivePiece() == piece){
+                toggleActiveSpaces(chessBoard);
+                chessBoard.setActivePiece(null);
+            }else if((chessBoard.getActivePiece() == null || chessBoard.getActivePiece() != piece) && isCorrectColorTurn(piece, chessBoard.isTurnWhite())){
+                chessBoard.setActivePiece(piece);
+                toggleActiveSpaces(chessBoard);
+                System.out.println("BEFORE METHOD GRID X:" + piece.getGridX() + " Y: " + piece.getGridY());
+                toggleAvailableSpaces(chessBoard, piece.getAvailableMoves(chessBoard));
+            }
+        }else{
+            if(chessBoard.getActivePiece() == piece){
+                toggleActiveSpaces(chessBoard);
+                chessBoard.setActivePiece(null);
+            }else if(chessBoard.getActivePiece() == null){
+                chessBoard.setActivePiece(piece);
+                toggleActiveSpaces(chessBoard);
+                toggleAvailableSpaces(chessBoard, piece.getAvailableMoves(chessBoard));
+            }
         }
 
 
-        // if((chessBoard.isTurnWhite() && isWhitePiece(chessBoard.getActivePiece())) || (!chessBoard.isTurnWhite() && chessBoard.getActivePiece() instanceof WhitePawn == false)){
-        //     if(chessBoard.getActivePiece() == null){
-        //         chessBoard.setActivePiece(piece);
-        //         toggleActiveSpaces(chessBoard);
-        //         toggleAvailableSpaces(chessBoard, piece.getAvailableMoves(chessBoard));
-        //     }else if(chessBoard.getActivePiece() == piece){
-        //         toggleActiveSpaces(chessBoard);
-        //         chessBoard.setActivePiece(null);
-        //     }else if(chessBoard.getActivePiece() != piece){
-        //         chessBoard.setActivePiece(piece);
-        //         toggleActiveSpaces(chessBoard);
-        //         toggleAvailableSpaces(chessBoard, piece.getAvailableMoves(chessBoard));
-        //     }
-        // }
+       
         event.consume();
     }
 
@@ -212,4 +214,14 @@ public class ChessTester extends Application{
         }
         return false;
     }
+
+    public static boolean isCorrectColorTurn(Piece piece, boolean isWhiteTurn){
+        if(piece.toString().contains("White") && isWhiteTurn){
+            return true;
+        }else if(piece.toString().contains("Black") && !isWhiteTurn){
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -63,7 +63,7 @@ public abstract class Piece {
         this.setGridY(space.getGridY());
      }
     public void setGridX(int gridX) { this.gridX = gridX; }
-    public void setGridY(int gridY) { this.gridX = gridY; }
+    public void setGridY(int gridY) { this.gridY = gridY; }
 
     public void setXPos(int xpos) { 
         this.xpos = xpos; 

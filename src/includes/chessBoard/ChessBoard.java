@@ -8,10 +8,12 @@ public class ChessBoard {
     private GridSpace [][] board;
     private Piece activePiece;
     private boolean turnWhite;
+    private boolean turnBased;
 
     public ChessBoard(int originalXPos, int ypos){
         this.board = new GridSpace[8][8];
         this.turnWhite = true;
+        this.turnBased = true;
 
         boolean whiteSpace = true;
         int xpos = originalXPos;
@@ -33,20 +35,31 @@ public class ChessBoard {
     public GridSpace[][] getBoard() { return this.board; }
     public Piece getActivePiece() { return this.activePiece; }
     public boolean isTurnWhite() { return this.turnWhite; }
+    public boolean isTurnBased() { return this.turnBased; }
 
     public void setActivePiece(Piece piece) { this.activePiece = piece;}
     public void toggleTurnWhite() { this.turnWhite = !this.turnWhite; }
+    public void toggleTurnBased() { this.turnBased = !this.turnBased; }
 
     public void addPiece(int gridX, int gridY, Piece piece){
-        piece.setXPos(this.board[gridX][gridY].getPieceXPos());
-        piece.setYPos(this.board[gridX][gridY].getPieceYPos());
-        piece.setGridSpace(this.board[gridX][gridY]);
+        GridSpace currentSpace = this.board[gridY][gridX];
+        // piece.setXPos(currentSpace.getPieceXPos());
+        // piece.setYPos(currentSpace.getPieceYPos());
+        // System.out.println("ADDPIECE GRID X: " + gridX);
+        // piece.setGridX(currentSpace.getGridX());
+        // System.out.println("PIECE GRID X: " + piece.getGridX());
+        // piece.setGridY(currentSpace.getGridY());
+        // piece.setGridSpace(this.board[gridY][gridX]);
+        piece.setXPos(currentSpace.getPieceXPos());
+        piece.setYPos(currentSpace.getPieceYPos());
+        piece.setGridX(currentSpace.getGridX());
+        piece.setGridY(currentSpace.getGridY());
+        piece.setGridSpace(currentSpace);
         
-        this.board[gridX][gridY].setCurrentPiece(piece);
+        this.board[gridY][gridX].setCurrentPiece(piece);
     }
 
     public void movePiece(GridSpace oldSpace, GridSpace newSpace, Piece piece){
-        System.out.println("NEWGRID X: " + newSpace.getGridX() + " Y: " + newSpace.getGridY());
         oldSpace.setCurrentPiece(null);
         piece.setXPos(newSpace.getPieceXPos());
         piece.setYPos(newSpace.getPieceYPos());

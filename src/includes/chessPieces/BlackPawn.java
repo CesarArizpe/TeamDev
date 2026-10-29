@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import includes.chessBoard.GridSpace;
 import includes.chessBoard.ChessBoard;
 
-public class BlackPawn extends WhitePawn {
+public class BlackPawn extends Pawn {
     public BlackPawn() throws FileNotFoundException{
         super();
         super.loadImageView( super.getSpritePath() + "\\b_Pawn.png");
@@ -14,13 +14,12 @@ public class BlackPawn extends WhitePawn {
     public GridSpace[] getAvailableMoves(ChessBoard chessboard){
         GridSpace[] availableMoves = new GridSpace[5];
         int moveCounter = 0;
-        if(chessboard.getBoard()[super.getGridX() + 1][super.getGridY()].getCurrentPiece() == null){
-            System.out.println("nothing detected");
-            availableMoves[moveCounter] = chessboard.getBoard()[super.getGridX() + 1][super.getGridY()];
+        if(super.getGridY() + 1 < 9 && chessboard.getBoard()[super.getGridY() + 1][super.getGridX()].getCurrentPiece() == null){
+            availableMoves[moveCounter] = chessboard.getBoard()[super.getGridY() + 1][super.getGridX()];
             moveCounter += 1;
         }
-        if(super.isFirstMove() && chessboard.getBoard()[super.getGridX() + 1][super.getGridY()].getCurrentPiece() == null){
-            availableMoves[moveCounter] = chessboard.getBoard()[super.getGridX() + 2][super.getGridY()];
+        if(super.isFirstMove() && super.getGridY() + 2 < 9 && chessboard.getBoard()[super.getGridY() + 2][super.getGridX()].getCurrentPiece() == null){
+            availableMoves[moveCounter] = chessboard.getBoard()[super.getGridY() + 2][super.getGridX()];
             moveCounter += 1;
         }
 
