@@ -1,4 +1,3 @@
-C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\App.java
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessBoard\ChessBoard.java
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessBoard\ChessBoardTester.java
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessBoard\GridSpace.java

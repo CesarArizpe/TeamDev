@@ -8,7 +8,7 @@ if not exist "%JAVAFX_LIB%" (
   exit /b 1
 )
 if not exist docs\api mkdir docs\api
-javadoc -Xdoclint:none --module-path "%JAVAFX_LIB%" --add-modules javafx.controls,javafx.media -sourcepath src -d docs\api src\App.java src\ChessTester.java -subpackages includes.chessBoard:includes.chessPieces
+javadoc -Xdoclint:none --module-path "%JAVAFX_LIB%" --add-modules javafx.controls,javafx.media -sourcepath src -d docs\api   -subpackages includes.chessBoard:includes.chessPieces
 if errorlevel 1 (
   echo Javadoc generation reported errors. Review the output above.
   pause
