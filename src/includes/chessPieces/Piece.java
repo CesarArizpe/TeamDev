@@ -23,6 +23,8 @@ public abstract class Piece {
     private GridSpace currentGridSpace;
     private final boolean isWhitePiece;
     private final String spritePath;
+    private String finalSpritePath;
+    private boolean isDragging;
 
     public Piece(){
         this.hitbox = new Rectangle(0, 0, 48, 48);
@@ -36,6 +38,7 @@ public abstract class Piece {
         this.currentGridSpace = null;
         this.isWhitePiece = true;
         this.spritePath = System.getProperty("user.dir") + "\\src\\includes\\sprites";
+        this.isDragging = false;
     }
 
     public Rectangle getHitbox() { return this.hitbox; }
@@ -49,12 +52,16 @@ public abstract class Piece {
     public GridSpace getGridSpace() { return this.currentGridSpace; }
     public boolean isWhite() { return this.isWhitePiece; }
     public String getSpritePath() { return this.spritePath; }
+     public String getFinalSpritePath() { return this.finalSpritePath; }
+    public boolean getIsDragging() { return this.isDragging; }
+
+    public void setIsDragging(boolean isDragging) { this.isDragging = isDragging; }
+    public void setFinalSpritePath(String filepath) { this.finalSpritePath = this.spritePath + filepath; }
 
     public void loadImageView(String filepath) throws FileNotFoundException{
         this.imageView = new ImageView(new Image(new FileInputStream(filepath)));
         this.imageView.setFitHeight(height);
         this.imageView.setFitWidth(width);
-        this.currentGridSpace = null;
     }
 
     public void setGridSpace(GridSpace space) { 

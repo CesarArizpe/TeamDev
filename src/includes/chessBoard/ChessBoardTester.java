@@ -48,7 +48,6 @@ public class ChessBoardTester {
         piece.setYPos(newSpace.getPieceYPos());
         piece.setGridX(newSpace.getGridX());
         piece.setGridY(newSpace.getGridY());
-        if(piece instanceof WhitePawn pawn && pawn.isFirstMove()){ pawn.toggleFirstMove(); }
 
         this.board[newSpace.getGridX()][newSpace.getGridY()].setCurrentPiece(piece);
         this.activePiece = null;
