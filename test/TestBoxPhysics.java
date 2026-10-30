@@ -9,15 +9,12 @@ import javafx.scene.text.*;
 import javafx.scene.layout.Pane;
 import javafx.geometry.VPos;
 
-import physicsClasses.Logo;
-import physicsClasses.Vec2;
 
 
 public class TestBoxPhysics extends Application{
     private double screenWidth = 500;
     private double screenHeight = 500;
 
-    private boolean drawing = true;
 
     public void start(Stage stage){
         Text text = new Text();

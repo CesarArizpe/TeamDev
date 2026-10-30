@@ -1,5 +1,4 @@
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\App.java
-C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\ChessTester.java
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessBoard\ChessBoard.java
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessBoard\ChessBoardTester.java
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessBoard\GridSpace.java
@@ -19,7 +18,6 @@ C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessPieces\Queen.ja
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessPieces\Rook.java
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessPieces\SelectionGenerator.java
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessPieces\SelectionManager.java
-C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessPieces\Thing.java
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessPieces\WhiteBishop.java
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessPieces\WhiteKing.java
 C:\Users\Cesar\Programming\Java\Chess\ChessApp\src\includes\chessPieces\WhiteKnight.java

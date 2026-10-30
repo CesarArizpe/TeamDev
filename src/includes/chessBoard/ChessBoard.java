@@ -1,8 +1,6 @@
 package includes.chessBoard;
 
 import includes.chessPieces.Piece;
-import includes.chessPieces.SelectionGenerator;
-import includes.chessPieces.WhitePawn;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

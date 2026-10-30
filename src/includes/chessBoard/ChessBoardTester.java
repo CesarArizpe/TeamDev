@@ -1,7 +1,6 @@
 package includes.chessBoard;
 
 import includes.chessPieces.Piece;
-import includes.chessPieces.WhitePawn;
 import javafx.scene.paint.Color;
 
 public class ChessBoardTester {

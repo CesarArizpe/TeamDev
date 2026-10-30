@@ -1,15 +1,12 @@
 package includes.chessPieces;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.HashMap;
 
 import includes.chessBoard.ChessBoard;
 import includes.chessBoard.GridSpace;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;

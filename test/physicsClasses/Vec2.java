@@ -1,6 +1,5 @@
 package physicsClasses;
 
-import java.math.*;
 
 public class Vec2 {
     private double xcomp;
