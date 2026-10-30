@@ -8,8 +8,8 @@ public abstract class Pawn extends Piece {
 
     public Pawn() throws FileNotFoundException{
         super();
-        super.loadImageView(super.getSpritePath() + "\\w_Pawn.png");
     }
 
+    @Override 
     public abstract GridSpace[] getAvailableMoves(ChessBoard chessboard);
 }

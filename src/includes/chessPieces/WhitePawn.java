@@ -12,9 +12,9 @@ public class WhitePawn extends Pawn {
         super.loadImageView(super.getFinalSpritePath());
     }
 
-
+    @Override 
     public GridSpace[] getAvailableMoves(ChessBoard chessboard){
-        GridSpace[] availableMoves = new GridSpace[5];
+        GridSpace[] availableMoves = new GridSpace[28];
         int moveCounter = 0;
         if(super.getGridY() - 1 > -1 && chessboard.getBoard()[super.getGridY() - 1][super.getGridX()].getCurrentPiece() == null){
             availableMoves[moveCounter] = chessboard.getBoard()[super.getGridY() - 1][super.getGridX()];
@@ -24,24 +24,27 @@ public class WhitePawn extends Pawn {
             availableMoves[moveCounter] = chessboard.getBoard()[super.getGridY() - 2][super.getGridX()];
             moveCounter += 1;
         }
-        if(super.getGridY() - 1 > -1 && super.getGridX() + 1 < 7 && isBlackPiece(chessboard.getBoard()[super.getGridY() - 1][super.getGridX() + 1])){
+        if(super.getGridY() - 1 > -1 && super.getGridX() + 1 < 8 && super.isBlackPiece(chessboard.getBoard()[super.getGridY() - 1][super.getGridX() + 1])){
             availableMoves[moveCounter] = chessboard.getBoard()[super.getGridY() - 1][super.getGridX() + 1];
-                        chessboard.getBoard()[super.getGridY() + 1][super.getGridX() + 1].getHoverRect().toFront();
+                        chessboard.getBoard()[super.getGridY() + 1][super.getGridX() + 1].getHoverRect();
 
             moveCounter += 1;
         }
-        if(super.getGridY() - 1 > -1 && super.getGridX() - 1 > -1 && isBlackPiece(chessboard.getBoard()[super.getGridY() - 1][super.getGridX() -1])){
+        if(super.getGridY() - 1 > -1 && super.getGridX() - 1 > -1 && super.isBlackPiece(chessboard.getBoard()[super.getGridY() - 1][super.getGridX() -1])){
             availableMoves[moveCounter] = chessboard.getBoard()[super.getGridY() - 1][super.getGridX() - 1];
-                        chessboard.getBoard()[super.getGridY() + 1][super.getGridX() + 1].getHoverRect().toFront();
+                        chessboard.getBoard()[super.getGridY() + 1][super.getGridX() + 1].getHoverRect();
 
             moveCounter += 1;
         }
 
         return availableMoves;
     }
-
-    public static boolean isBlackPiece(GridSpace space){
-        if(space.getCurrentPiece() != null && space.getCurrentPiece().getFinalSpritePath().contains("b_")) return true;
+    
+    @Override 
+    public boolean isValidMove(ChessBoard chessBoard, GridSpace currentSpace){
+        if(currentSpace.getCurrentPiece() == null) return true;
+        if(currentSpace.getCurrentPiece() != null
+            && super.isBlackPiece(currentSpace)) return true;
         return false;
     }
 }   

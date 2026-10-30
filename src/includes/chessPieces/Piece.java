@@ -83,6 +83,29 @@ public abstract class Piece {
         this.imageView.setY(ypos);
     }
 
+    public static boolean isWhitePiece(GridSpace space){
+        if(space.getCurrentPiece() != null && space.getCurrentPiece().getFinalSpritePath().contains("w_")) return true;
+        return false;
+    }
+
+    public static boolean isBlackPiece(GridSpace space){
+        if(space.getCurrentPiece() != null && space.getCurrentPiece().getFinalSpritePath().contains("b_")) return true;
+        return false;
+    }
+
+    public boolean hasMoves(GridSpace[] spaces){
+        for(GridSpace space : spaces){
+            if(space != null) {
+                System.out.println("NO SPACES DETECTED");
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
     public abstract GridSpace[] getAvailableMoves(ChessBoard chessboard);
+    public abstract boolean isValidMove(ChessBoard chessBoard, GridSpace currentSpace);
 
 }

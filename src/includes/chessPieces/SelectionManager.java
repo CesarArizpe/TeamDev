@@ -36,9 +36,19 @@ public class SelectionManager{
         this.spritePath = System.getProperty("user.dir") + "\\src\\includes\\sprites";
         this.whiteSelectionGenerators = new HashMap<>();
         this.whiteSelectionGenerators.put("Pawn", new SelectionGenerator(572, 439, this.spritePath + "\\w_Pawn.png"));
+        this.whiteSelectionGenerators.put("Knight", new SelectionGenerator(572 + 48, 439, this.spritePath + "\\w_Knight.png"));
+        this.whiteSelectionGenerators.put("Bishop", new SelectionGenerator(572 + 48 * 2, 439, this.spritePath + "\\w_Bishop.png"));
+        this.whiteSelectionGenerators.put("Rook", new SelectionGenerator(572 + 48 * 3, 439, this.spritePath + "\\w_Rook.png"));
+        this.whiteSelectionGenerators.put("Queen", new SelectionGenerator(572 + 48 * 4, 439, this.spritePath + "\\w_Queen.png"));
+        this.whiteSelectionGenerators.put("King", new SelectionGenerator(572 + 48 * 5, 439, this.spritePath + "\\w_King.png"));
         // this.whiteSelectionGenerators = new SelectionGenerator(572, 439, this.spritePath + "\\w_Pawn.png");
         this.blackSelectionGenerators = new HashMap<>();
         this.blackSelectionGenerators.put("Pawn", new SelectionGenerator(572, 343, this.spritePath + "\\b_Pawn.png"));
+        this.blackSelectionGenerators.put("Knight", new SelectionGenerator(572 + 48, 343, this.spritePath + "\\b_Knight.png"));
+        this.blackSelectionGenerators.put("Bishop", new SelectionGenerator(572 + 48 * 2, 343, this.spritePath + "\\b_Bishop.png"));
+        this.blackSelectionGenerators.put("Rook", new SelectionGenerator(572 + 48 * 3, 343, this.spritePath + "\\b_Rook.png"));
+        this.blackSelectionGenerators.put("Queen", new SelectionGenerator(572 + 48 * 4, 343, this.spritePath + "\\b_Queen.png"));
+        this.blackSelectionGenerators.put("King", new SelectionGenerator(572 + 48 * 5, 343, this.spritePath + "\\b_King.png"));
         
         // this.root.getChildren().add(this.whi)
         setupAllDragHandlers(chessBoard);
@@ -188,7 +198,6 @@ public class SelectionManager{
             chessBoard.spacesWithPieces();
             chessBoard.toggleActiveSpaces();
             if(chessBoard.isTurnBased()) chessBoard.toggleTurnWhite();
-            // chessBoard.setActivePiece(null);
             return;
         }
 
@@ -198,19 +207,26 @@ public class SelectionManager{
                 chessBoard.toggleActiveSpaces();
                 chessBoard.setActivePiece(null);
             }else if((chessBoard.getActivePiece() == null || chessBoard.getActivePiece() != piece) && isCorrectColorTurn(piece, chessBoard.isTurnWhite())){
-                chessBoard.setActivePiece(piece);
-                chessBoard.toggleActiveSpaces();
-                System.out.println("BEFORE METHOD GRID X:" + piece.getGridX() + " Y: " + piece.getGridY());
-                chessBoard.toggleAvailableSpaces(piece.getAvailableMoves(chessBoard));
+                if(!piece.hasMoves(piece.getAvailableMoves(chessBoard))) return;
+                else{
+                    chessBoard.setActivePiece(piece);
+                    chessBoard.toggleActiveSpaces();
+                    System.out.println("BEFORE METHOD GRID X:" + piece.getGridX() + " Y: " + piece.getGridY());
+                    chessBoard.toggleAvailableSpaces(piece.getAvailableMoves(chessBoard));
+                }
             }
         }else{
             if(chessBoard.getActivePiece() == piece){
                 chessBoard.toggleActiveSpaces();
                 chessBoard.setActivePiece(null);
             }else if(chessBoard.getActivePiece() == null){
-                chessBoard.setActivePiece(piece);
-                chessBoard.toggleActiveSpaces();
-                chessBoard.toggleAvailableSpaces(piece.getAvailableMoves(chessBoard));
+                if(!piece.hasMoves(piece.getAvailableMoves(chessBoard))) return;
+                else{
+                    chessBoard.setActivePiece(piece);
+                    chessBoard.toggleActiveSpaces();
+                    System.out.println("BEFORE METHOD GRID X:" + piece.getGridX() + " Y: " + piece.getGridY());
+                    chessBoard.toggleAvailableSpaces(piece.getAvailableMoves(chessBoard));
+                }
             }
 
         }
@@ -229,35 +245,7 @@ public class SelectionManager{
 
         }
         System.out.println("ACTIVE PIECE - " + chessBoard.getActivePiece() == null? "NULL" : chessBoard.getActivePiece());
-        // for(GridSpace space : piece.getAvailableMoves(chessBoard)){
-        //     if(space != null && space.getHoverRect().isMouseTransparent()){
-        //         System.out.println("IS MOUSE TRANSPARENT");
-        //     }else if(space == null){
-        //         System.out.println("IS NULL");
-        //     }else{
-                
-        //         System.out.println("IS NOT MOUSE TRANSPARENT");
-        //     }
-        // }
-
-            // for(GridSpace space : chessBoard.getActivePiece().getAvailableMoves(chessBoard)){
-            //     if(space != null){
-            //         System.out.println("AVAILABLE MOVE X: " + space.getGridX() + " Y: " + space.getGridY());
-            //     }
-            // }
-
         chessBoard.spacesWithPieces();
-            // if(chessBoard.getActivePiece() != null){
-            //     GridSpace[] moves = chessBoard.getActivePiece().getAvailableMoves(chessBoard);
-            //     for(int i = 0; i < 5; i++){
-            //         GridSpace space = moves[i];
-            //         if(space != null){
-            //             System.out.println("AVAILABLE MOVE X: " + space.getGridX() + " Y: " + space.getGridY());
-            //         }
-            //     }
-            // }
-
-
 
 
             // event.consume();
@@ -266,14 +254,6 @@ public class SelectionManager{
         public static void handleHoverRectClick(ChessBoard chessBoard, MouseEvent event, Piece piece, GridSpace gridSpace){
             System.out.println("clicked hover rect");
 
-        // for(GridSpace space : piece.getAvailableMoves(chessBoard)){
-        //     if(space.getHoverRect().isMouseTransparent()){
-        //         System.out.println("IS MOUSE TRANSPARENT");
-        //     }else{
-                
-        //         System.out.println("IS NOT MOUSE TRANSPARENT");
-        //     }
-        // }
         if(chessBoard.isTurnBased()){
             if(isCorrectColorTurn(chessBoard.getActivePiece(), chessBoard.isTurnWhite())){
                 chessBoard.movePiece(chessBoard.getActivePiece().getGridSpace(), gridSpace, chessBoard.getActivePiece());
@@ -365,9 +345,39 @@ public class SelectionManager{
             if(currentsSelectionGenerator.getSpritePath().contains("Pawn")){
                 addPiece(chessBoard, new WhitePawn(), space.getGridX(), space.getGridY(), this.root);
             }
+            if(currentsSelectionGenerator.getSpritePath().contains("Knight")){
+                addPiece(chessBoard, new WhiteKnight(), space.getGridX(), space.getGridY(), this.root);
+            }
+            if(currentsSelectionGenerator.getSpritePath().contains("Bishop")){
+                addPiece(chessBoard, new WhiteBishop(), space.getGridX(), space.getGridY(), this.root);
+            }
+            if(currentsSelectionGenerator.getSpritePath().contains("Rook")){
+                addPiece(chessBoard, new WhiteRook(), space.getGridX(), space.getGridY(), this.root);
+            }
+            if(currentsSelectionGenerator.getSpritePath().contains("Queen")){
+                addPiece(chessBoard, new WhiteQueen(), space.getGridX(), space.getGridY(), this.root);
+            }
+            if(currentsSelectionGenerator.getSpritePath().contains("King")){
+                addPiece(chessBoard, new WhiteKing(), space.getGridX(), space.getGridY(), this.root);
+            }
         }else{
             if(currentsSelectionGenerator.getSpritePath().contains("Pawn")){
                 addPiece(chessBoard, new BlackPawn(), space.getGridX(), space.getGridY(), this.root);
+            }
+            if(currentsSelectionGenerator.getSpritePath().contains("Knight")){
+                addPiece(chessBoard, new BlackKnight(), space.getGridX(), space.getGridY(), this.root);
+            }
+            if(currentsSelectionGenerator.getSpritePath().contains("Bishop")){
+                addPiece(chessBoard, new BlackBishop(), space.getGridX(), space.getGridY(), this.root);
+            }
+            if(currentsSelectionGenerator.getSpritePath().contains("Rook")){
+                addPiece(chessBoard, new BlackRook(), space.getGridX(), space.getGridY(), this.root);
+            }
+            if(currentsSelectionGenerator.getSpritePath().contains("Queen")){
+                addPiece(chessBoard, new BlackQueen(), space.getGridX(), space.getGridY(), this.root);
+            }
+            if(currentsSelectionGenerator.getSpritePath().contains("King")){
+                addPiece(chessBoard, new BlackKing(), space.getGridX(), space.getGridY(), this.root);
             }
         }
     }

@@ -70,6 +70,7 @@ public class ChessBoard {
     }
     
     public void capturePiece(Piece piece, Piece capture){
+        System.out.println("CAPTURE PIECE = " + capture);
         this.board[piece.getGridY()][piece.getGridX()].setCurrentPiece(null);
         this.board[capture.getGridY()][capture.getGridX()].setCurrentPiece(piece);
         System.out.println(piece.getGridX() + ", " + piece.getGridY() + " should be NULL");
@@ -77,7 +78,10 @@ public class ChessBoard {
         piece.setYPos(capture.getYPos());
         piece.setGridX(capture.getGridX());
         piece.setGridY(capture.getGridY());
-        
+        piece.setGridSpace(capture.getGridSpace());
+        System.out.println("PIECE THAT CAPTURED - " + piece);
+        System.out.println("X: " + piece.getGridX() + "Y: " + piece.getGridY());
+
         this.activePiece = null;
         // capture = null;
 
@@ -87,6 +91,9 @@ public class ChessBoard {
             capture.getHitbox(),
             capture.getImageView()
         );
+
+        capture.getHitbox().setVisible(false);
+        capture.getHitbox().setMouseTransparent(true);
     }
 
     public void toggleAllSpaces(){
